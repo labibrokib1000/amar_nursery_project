@@ -24,7 +24,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: 'https://amar-nursery-project.vercel.app/',
+    origin: ['https://amar-nursery-project.vercel.app','http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
