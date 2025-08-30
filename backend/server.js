@@ -39,7 +39,9 @@ connectDB();
 
 // Routes
 const wishlistRoutes = require('./routes/wishlistRoutes');
-
+app.get('/', (req, res) => {
+    res.send('Hello World');
+});
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
