@@ -3,6 +3,11 @@ dotenv.config();
 
 const express = require('express');
 const cors = require('cors');
+app.use(cors({
+    origin: 'https://amar-nursery-project.vercel.app/',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
