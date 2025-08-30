@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/api/users';
+const API_URL = 'https://amar-nursery-project.vercel.app/api/users';
 
 // Create axios instance with base configuration
 const api = axios.create({
