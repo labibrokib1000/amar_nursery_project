@@ -1,0 +1,6 @@
+<!-- Sample plant image placeholder - Replace with actual images -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#e8f5e8"/>
+  <circle cx="200" cy="150" r="80" fill="#81c784"/>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial" font-size="16" fill="white">Sample Plant 3</text>
+</svg>
