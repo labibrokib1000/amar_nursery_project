@@ -24,12 +24,19 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ['https://amar-nursery-project.vercel.app','http://localhost:3000'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    origin: [
+        'https://amar-nursery-project.vercel.app',
+        'https://amar-nursery-project-api.vercel.app',
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'http://localhost:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-requested-with']
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Cloudinary configuration
 cloudinary.config({
@@ -44,26 +51,30 @@ console.log('🔧 Cloudinary configured with:', {
     api_secret: process.env.CLOUDINARY_API_SECRET ? 'configured' : 'missing'
 });
 
-// Database connection - Connect on each request for serverless
-if (process.env.NODE_ENV !== 'production') {
-    connectDB();
-} else {
-    // For serverless environments, connect on demand
-    app.use(async (req, res, next) => {
-        try {
-            await connectDB();
-            next();
-        } catch (error) {
-            console.error('Database connection failed:', error);
-            res.status(500).json({ error: 'Database connection failed' });
-        }
-    });
-}
+// Database connection - Always connect for serverless
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        res.status(500).json({ 
+            success: false,
+            error: 'Database connection failed',
+            message: error.message 
+        });
+    }
+});
 
 // Routes
 const wishlistRoutes = require('./routes/wishlistRoutes');
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.json({ 
+        message: 'AmarNursery Backend API',
+        status: 'Running',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
 });
 
 // Health check endpoint
@@ -72,7 +83,8 @@ app.get('/health', (req, res) => {
         status: 'OK', 
         message: 'AmarNursery Backend API is running',
         timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || 'development'
+        environment: process.env.NODE_ENV || 'development',
+        database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
     });
 });
 
@@ -83,7 +95,13 @@ app.get('/api/test', (req, res) => {
         message: 'API is working!',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development',
-        mongooseConnection: mongoose.connection.readyState
+        mongooseConnection: mongoose.connection.readyState,
+        connectionStates: {
+            0: 'Disconnected',
+            1: 'Connected',
+            2: 'Connecting',
+            3: 'Disconnecting'
+        }
     });
 });
 
@@ -98,14 +116,16 @@ app.use('/api/upload', uploadRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-// const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001;
 
-// For Vercel deployment, export the app
-// if (process.env.NODE_ENV !== 'production') {
-//     app.listen(PORT, () => {
-//         console.log(`Server is running on port ${PORT}`);
-//     });
-// }
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server is running on port ${PORT}`);
+        console.log(`🌐 API available at: http://localhost:${PORT}/api`);
+        console.log(`🔧 Health check: http://localhost:${PORT}/health`);
+    });
+}
 
 // Export for Vercel
 module.exports = app;

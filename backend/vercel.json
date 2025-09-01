@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "amar-nursery-project-api",
   "builds": [
     {
       "src": "server.js",
@@ -7,6 +8,17 @@
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "server.js" }
-  ]
+    {
+      "src": "/(.*)",
+      "dest": "server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "server.js": {
+      "maxDuration": 30
+    }
+  }
 }
