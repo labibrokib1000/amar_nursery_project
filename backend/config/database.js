@@ -1,14 +1,24 @@
 const mongoose = require('mongoose');
 
+let isConnected = false;
+
 const connectDB = async () => {
+    if (isConnected) {
+        console.log('✅ Using existing MongoDB connection');
+        return;
+    }
+
     try {
         console.log('🔄 Attempting to connect to MongoDB Atlas...');
         
         const conn = await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            bufferCommands: false,
+            bufferMaxEntries: 0,
         });
 
+        isConnected = true;
         console.log(`✅ MongoDB Connected Successfully!`);
         console.log(`🌐 Host: ${conn.connection.host}`);
         console.log(`📂 Database: ${conn.connection.name}`);
@@ -27,7 +37,12 @@ const connectDB = async () => {
             console.error('💡 SOLUTION: Check your username and password in the connection string');
         }
         
-        process.exit(1);
+        // Don't exit in serverless environment
+        if (process.env.NODE_ENV !== 'production') {
+            process.exit(1);
+        } else {
+            throw error;
+        }
     }
 };
 

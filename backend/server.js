@@ -38,14 +38,55 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Database connection
-connectDB();
+console.log('🔧 Cloudinary configured with:', {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY ? 'configured' : 'missing',
+    api_secret: process.env.CLOUDINARY_API_SECRET ? 'configured' : 'missing'
+});
+
+// Database connection - Connect on each request for serverless
+if (process.env.NODE_ENV !== 'production') {
+    connectDB();
+} else {
+    // For serverless environments, connect on demand
+    app.use(async (req, res, next) => {
+        try {
+            await connectDB();
+            next();
+        } catch (error) {
+            console.error('Database connection failed:', error);
+            res.status(500).json({ error: 'Database connection failed' });
+        }
+    });
+}
 
 // Routes
 const wishlistRoutes = require('./routes/wishlistRoutes');
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        message: 'AmarNursery Backend API is running',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
+// Test API endpoint
+app.get('/api/test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'API is working!',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        mongooseConnection: mongoose.connection.readyState
+    });
+});
+
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
@@ -57,7 +98,14 @@ app.use('/api/upload', uploadRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = 5001; // Backend server port
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5001;
+
+// For Vercel deployment, export the app
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app;
