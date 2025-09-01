@@ -98,7 +98,7 @@ const viewDatabaseData = async () => {
     
     console.log(`\n✨ Your nursery database is fully seeded and ready!`);
     console.log(`🌐 Frontend: http://localhost:3001`);
-    console.log(`🔧 Backend: http://localhost:5001`);
+    // console.log(`🔧 Backend: http://localhost:5001`);
     
     process.exit(0);
   } catch (error) {
