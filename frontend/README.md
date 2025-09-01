@@ -28,7 +28,7 @@ A modern React.js frontend for the AmarNursery plant e-commerce platform.
 3. **Update environment variables:**
    Edit `.env` file with your actual API URL:
    ```env
-   REACT_APP_API_URL=http://localhost:5000/api
+   VITE_API_URL=https://amar-nursery-project-api.vercel.app/api
    ```
 
 4. **Start development server:**
@@ -38,9 +38,9 @@ A modern React.js frontend for the AmarNursery plant e-commerce platform.
 
 ## Environment Variables
 
-- `REACT_APP_API_URL` - Backend API URL (default: http://localhost:5000/api)
-- `REACT_APP_NAME` - Application name
-- `REACT_APP_VERSION` - Application version
+- `VITE_API_URL` - Backend API URL (default: https://amar-nursery-project-api.vercel.app/api)
+- `VITE_APP_NAME` - Application name
+- `VITE_APP_VERSION` - Application version
 
 ## Project Structure
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://amar-nursery-project-api.vercel.app/api';
 
 // Create axios instance with interceptors for token handling
 const api = axios.create({
