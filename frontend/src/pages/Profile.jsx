@@ -252,7 +252,7 @@ const Profile = () => {
       }
 
       // Test with direct fetch
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://amar-nursery-project-api.vercel.app/api'}/orders/user/myorders`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/orders/user/myorders`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -452,7 +452,7 @@ const Profile = () => {
                   Loading: {loading ? 'Yes' : 'No'} | 
                   Error: {error ? 'Yes' : 'No'} | 
                   User: {user ? 'Logged in' : 'Not logged in'} |
-                  API: {import.meta.env.VITE_API_URL || 'https://amar-nursery-project-api.vercel.app/api'}
+                  API: {import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}
                 </Typography>
               </Alert>
 

@@ -2,7 +2,11 @@
 
 This is the backend API for the AmarNursery e-commerce platform.
 
-## Deployment URL
+## Development URLs
+- **Local API**: http://localhost:5001/
+- **Local API Base**: http://localhost:5001/api
+
+## Production URLs  
 - **Production API**: https://amar-nursery-project-api.vercel.app/
 - **API Base**: https://amar-nursery-project-api.vercel.app/api
 

@@ -1,6 +1,6 @@
 // API Test utility for debugging
 export const testAPIConnection = async () => {
-  const baseURL = import.meta.env.VITE_API_URL || 'https://amar-nursery-project-api.vercel.app/api';
+  const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
   
   console.log('Testing API connection to:', baseURL);
   
@@ -33,7 +33,7 @@ export const testAPIConnection = async () => {
 
 // Test products endpoint
 export const testProductsAPI = async () => {
-  const baseURL = import.meta.env.VITE_API_URL || 'https://amar-nursery-project-api.vercel.app/api';
+  const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
   
   console.log('Testing Products API:', `${baseURL}/products`);
   

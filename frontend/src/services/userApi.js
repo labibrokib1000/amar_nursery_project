@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/users` : 'https://amar-nursery-project-api.vercel.app/api/users';
+const API_URL = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/users` : 'http://localhost:5001/api/users';
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: API_URL,

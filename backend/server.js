@@ -25,11 +25,12 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: [
-        'https://amar-nursery-project.vercel.app',
-        'https://amar-nursery-project-api.vercel.app',
         'http://localhost:3000',
         'http://localhost:3001',
-        'http://localhost:5173'
+        'http://localhost:5173',
+        'http://localhost:4173',
+        'https://amar-nursery-project.vercel.app',
+        'https://amar-nursery-project-api.vercel.app'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
