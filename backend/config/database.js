@@ -15,7 +15,6 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             bufferCommands: false,
-            bufferMaxEntries: 0,
         });
 
         isConnected = true;
